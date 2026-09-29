@@ -1,0 +1,98 @@
+// 1. Enum class
+enum class CourseStatus {
+    ACTIVE, COMPLETED, DROPPED
+}
+
+// 1. Object AppConfig
+object AppConfig {
+    const val MAX_COURSES = 5
+}
+
+// 2. Data class dengan companion object
+data class Course(
+    val code: String,
+    val name: String,
+    val status: CourseStatus
+) {
+    companion object {
+        const val PREFIX = "PAB"
+    }
+}
+
+// Extension function
+fun Course.displayInfo(): String {
+    return "$code - $name - $status"
+}
+
+// describe()
+fun describe(status: CourseStatus): String {
+    return when (status) {
+        CourseStatus.ACTIVE -> "Mata kuliah sedang berjalan"
+        CourseStatus.COMPLETED -> "Mata kuliah sudah selesai"
+        CourseStatus.DROPPED -> "Mata kuliah dibatalkan"
+    }
+}
+
+fun MutableList<Course>.addCourse(course: Course): Boolean {
+    val belumPenuh = this.size < AppConfig.MAX_COURSES
+    val kodeValid = course.code.startsWith(Course.PREFIX)
+
+    return if (belumPenuh && kodeValid) {
+        this.add(course)
+        true
+    } else {
+        false
+    }
+}
+
+fun main() {
+    val courses: MutableList<Course> = mutableListOf(
+        Course("PAB101", "Mobile App Development", CourseStatus.ACTIVE),
+        Course("DB201", "Basis Data", CourseStatus.COMPLETED),
+        Course("MTK101", "Matematika Diskrit", CourseStatus.ACTIVE)
+    )
+
+    courses.add(Course("WEB301", "Pemrograman Web", CourseStatus.ACTIVE))
+    courses.removeAt(1) // hapus "Basis Data"
+    courses.add(Course("HIST101", "Sejarah", CourseStatus.DROPPED))
+
+    println("Daftar mata kuliah saat ini:")
+    for (course in courses) {
+        println(course.displayInfo())
+    }
+
+    println()
+    println("Deskripsi status tiap mata kuliah:")
+    for (course in courses) {
+        println("${course.code} (${course.name}): ${describe(course.status)}")
+    }
+
+    val (code, name, status) = courses[0]
+    println()
+    println("Hasil destructuring:")
+    println("Code   : $code")
+    println("Name   : $name")
+    println("Status : $status")
+
+    // Uji coba addCourse()
+    println()
+    println("=== Uji Coba addCourse() ===")
+    println("Jumlah mata kuliah saat ini: ${courses.size}")
+    println("AppConfig.MAX_COURSES: ${AppConfig.MAX_COURSES}")
+
+    val hasil1 = courses.addCourse(Course("PAB202", "UI/UX Design", CourseStatus.ACTIVE))
+    println("Tambah PAB202 (kode valid)      -> $hasil1")
+
+    val hasil2 = courses.addCourse(Course("SEC401", "Keamanan Siber", CourseStatus.ACTIVE))
+    println("Tambah SEC401 (kode tidak valid) -> $hasil2")
+
+    courses.addCourse(Course("PAB303", "Testing Aplikasi", CourseStatus.ACTIVE))
+    val hasil3 = courses.addCourse(Course("PAB404", "Cloud Computing", CourseStatus.ACTIVE))
+    println("Tambah PAB404 (setelah penuh)   -> $hasil3")
+
+    println()
+    println("Daftar akhir (ukuran: ${courses.size}):")
+    for (course in courses) {
+        println(course.displayInfo())
+    }
+}
