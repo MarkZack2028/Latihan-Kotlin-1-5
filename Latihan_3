@@ -1,0 +1,16 @@
+fun main() {
+    // Buat MutableSet dengan dua keahlian awal
+    val keahlian = mutableSetOf("Kotlin", "Java")
+
+    // Tambahkan "Python" dan "Kotlin"
+    keahlian.add("Python")
+    keahlian.add("Kotlin") // duplikat, akan diabaikan
+
+    // Cetak ukuran Set
+    println("Isi Set: $keahlian")
+    println("Ukuran Set: ${keahlian.size}")
+
+    // Cek keberadaan dengan operator in
+    println("Swift ada di Set? ${"Swift" in keahlian}")
+    println("Python ada di Set? ${"Python" in keahlian}")
+}
