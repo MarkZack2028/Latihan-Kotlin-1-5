@@ -1,0 +1,60 @@
+// 1. Enum class (sudah termasuk DROPPED)
+enum class CourseStatus {
+    ACTIVE, COMPLETED, DROPPED
+}
+
+// 2. Data class
+data class Course(
+    val code: String,
+    val name: String,
+    val status: CourseStatus
+)
+
+// 5. Extension function
+fun Course.displayInfo(): String {
+    return "$code - $name - $status"
+}
+
+// Latihan 2: describe menggunakan when tanpa else (exhaustive)
+fun describe(status: CourseStatus): String {
+    return when (status) {
+        CourseStatus.ACTIVE -> "Mata kuliah sedang berjalan"
+        CourseStatus.COMPLETED -> "Mata kuliah sudah selesai"
+        CourseStatus.DROPPED -> "Mata kuliah dibatalkan"
+    }
+}
+
+fun main() {
+    // 3. Masukkan minimal tiga mata kuliah ke MutableList
+    val courses: MutableList<Course> = mutableListOf(
+        Course("PAB101", "Mobile App Development", CourseStatus.ACTIVE),
+        Course("DB201", "Basis Data", CourseStatus.COMPLETED),
+        Course("MTK101", "Matematika Diskrit", CourseStatus.ACTIVE)
+    )
+
+    // 4. Tambah satu, hapus satu
+    courses.add(Course("WEB301", "Pemrograman Web", CourseStatus.ACTIVE))
+    courses.removeAt(1) // hapus "Basis Data"
+
+    // Tambahan: mata kuliah dengan status DROPPED, agar semua cabang describe() teruji
+    courses.add(Course("HIST101", "Sejarah", CourseStatus.DROPPED))
+
+    println("Daftar mata kuliah yang tersisa:")
+    for (course in courses) {
+        println(course.displayInfo())
+    }
+
+    println()
+    println("Deskripsi status tiap mata kuliah:")
+    for (course in courses) {
+        println("${course.code} (${course.name}): ${describe(course.status)}")
+    }
+
+    // 6. Destructuring
+    val (code, name, status) = courses[0]
+    println()
+    println("Hasil destructuring:")
+    println("Code   : $code")
+    println("Name   : $name")
+    println("Status : $status")
+}
