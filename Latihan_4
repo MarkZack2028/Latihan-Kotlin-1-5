@@ -1,0 +1,31 @@
+fun main() {
+    // Buat MutableMap: NIM -> Nilai Ujian
+    val nilaiMahasiswa = mutableMapOf<Int, Int>(
+        2021001 to 85,
+        2021002 to 78,
+        2021003 to 92
+    )
+
+    println("Data awal:")
+    for ((nim, score) in nilaiMahasiswa) {
+        println("NIM $nim -> $score")
+    }
+
+    // Perbarui nilai salah satu mahasiswa
+    nilaiMahasiswa[2021002] = 88
+
+    // Hapus satu mahasiswa
+    nilaiMahasiswa.remove(2021003)
+
+    println()
+    println("Data setelah update dan hapus:")
+    for ((nim, score) in nilaiMahasiswa) {
+        println("NIM $nim -> $score")
+    }
+
+    // Cetak nilai untuk NIM yang TIDAK ADA di Map
+    println()
+    val nimTidakAda = 2021099
+    val hasil = nilaiMahasiswa[nimTidakAda]
+    println("Nilai untuk NIM $nimTidakAda: $hasil")
+}
