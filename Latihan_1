@@ -1,0 +1,36 @@
+// buat enum class
+enum class CourseStatus{
+    ACTIVE,
+    COMPLETED
+}
+// buat data class course
+data class Course(
+	val code: String,
+    val name: String,
+    val status: CourseStatus
+)
+// 5. Extension function
+fun Course.displayInfo(): String {
+    return "$code - $name - $status"
+}
+fun main(){
+// masukkan tiga matkul ke mutableList
+    val mataKuliah: MutableList<Course> = mutableListOf(
+    Course("001", "PAB", CourseStatus.ACTIVE),
+    Course("002", "PGIM", CourseStatus.ACTIVE),
+    Course("003", "Informatika Medis", CourseStatus.ACTIVE)
+    )
+    
+    // tambahkan satu mata kuliah
+    mataKuliah.add(Course("WEB301", "Pemrograman Web", CourseStatus.ACTIVE))
+    // hapus satu mata kuliah
+    mataKuliah.removeAt(1) 
+    
+    // 6. Destructuring
+    val (code, name, status) = mataKuliah[0]
+    println()
+    println("Hasil destructuring:")
+    println("Code   : $code")
+    println("Name   : $name")
+    println("Status : $status")
+}
